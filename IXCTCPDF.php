@@ -8001,16 +8001,14 @@ class IXCTCPDF
         if ($destroyall and ! $preserve_objcopy && isset($this->file_id)) {
             self::$cleaned_ids[$this->file_id] = true;
             if (is_dir(K_PATH_CACHE)) {
-                $files = scandir(K_PATH_CACHE, SCANDIR_SORT_NONE);
+                $files = glob(K_PATH_CACHE . '__tcpdf_' . $this->file_id . '_*');
                 foreach($files as $file) {
-                    if ($file[0] === '.'){
-                        continue;
-                    }
-                    if (is_file($file) && strpos(basename($file), '__tcpdf_' . $this->file_id . '_') === 0) {
+                    if (is_file($file)) {
                         unlink($file);
                     }
                 }
             }
+
             if (isset($this->imagekeys)) {
                 foreach ($this->imagekeys as $file) {
                     if (strpos($file, K_PATH_CACHE) === 0 && IXCTCPDF_STATIC::file_exists($file)) {
