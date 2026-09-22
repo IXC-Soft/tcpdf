@@ -4287,7 +4287,7 @@ class IXCTCPDF
      */
     protected function getFontsList()
     {
-        $this->fontList = array (
+        $this->fontlist = array (
             0 => 'timesbi',
             1 => 'helveticab',
             2 => 'courieri',
