@@ -9298,6 +9298,7 @@ class IXCTCPDF
             if (isset($this->FontFiles[$font['file']]['n'])) {
                 $out .= ' /FontFile2 ' . $this->FontFiles[$font['file']]['n'] . ' 0 R';
             }
+
             $fontdir = $this->FontFiles[$font['file']]['fontdir'];
         }
         $out .= ' >>';
