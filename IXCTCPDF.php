@@ -9203,7 +9203,9 @@ class IXCTCPDF
                     }
                     $s .= ' /' . $fdk . ' ' . $fdv . '';
                 }
-                if (! IXCTCPDF_STATIC::empty_string($font['file'])) {
+                // The font program object only exists when the font file was found in _putfonts();
+                // otherwise omit the key to avoid an invalid reference ("/FontFile2  0 R").
+                if (! IXCTCPDF_STATIC::empty_string($font['file']) and isset($this->FontFiles[$font['file']]['n'])) {
                     $s .= ' /FontFile' . ($type == 'Type1' ? '' : '2') . ' ' . $this->FontFiles[$font['file']]['n'] . ' 0 R';
                 }
                 $s .= '>>';
@@ -9292,8 +9294,10 @@ class IXCTCPDF
         }
         $fontdir = false;
         if (! IXCTCPDF_STATIC::empty_string($font['file'])) {
-            // A stream containing a TrueType font
-            $out .= ' /FontFile2 ' . $this->FontFiles[$font['file']]['n'] . ' 0 R';
+            // A stream containing a TrueType font (only when the font file was found and embedded)
+            if (isset($this->FontFiles[$font['file']]['n'])) {
+                $out .= ' /FontFile2 ' . $this->FontFiles[$font['file']]['n'] . ' 0 R';
+            }
             $fontdir = $this->FontFiles[$font['file']]['fontdir'];
         }
         $out .= ' >>';
